@@ -10,9 +10,11 @@ export class AppController {
 
   // 생략하면 기본이 '/'로 인식 됨
   // '/he*o'와 같이 wildcard도 사용 가능하다
-  @Get('/he*o')
+  @Get('/hello')
   getHello(): string {
-    return this.appService.getHello();
+    console.log('hello');
+    // return this.appService.getHello();
+    return process.env.DATABASE_HOST;
   }
 
   // 요청과 함께 전달되는 데이터를 핸들러가 다룰 수 있는 객체로 변환함
