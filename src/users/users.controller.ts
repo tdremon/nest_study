@@ -7,6 +7,11 @@ import { UserInfo } from './users.interface';
 @Controller('users')
 export class UsersController {
 
+	@Get()
+	test(): string {
+		return 'Server is running';
+	}
+
 	@Post()
 	async createUser(@Body() dto: CreateUserDto): Promise<void> {
 		console.log(dto);
