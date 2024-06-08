@@ -4,6 +4,7 @@ import { VerifyEmailDto } from './dto/verify-email.dto';
 import { UserLoginDto } from './dto/user-login.dto';
 import { UserInfo } from './users.interface';
 import { UsersService } from './users.service';
+import { ValidationPipe } from '../validation.pipe';
 
 @Controller('users')
 export class UsersController {
@@ -15,7 +16,7 @@ export class UsersController {
 	// }
 
 	@Post()
-	async createUser(@Body() dto: CreateUserDto): Promise<void> {
+	async createUser(@Body(ValidationPipe) dto: CreateUserDto): Promise<void> {
 		console.log(dto);
 		const { name, email, password} = dto;
 		await this.usersService.createUser(name, email, password);
