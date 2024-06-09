@@ -18,8 +18,8 @@ export class UsersController {
 	@Post()
 	async createUser(@Body(ValidationPipe) dto: CreateUserDto): Promise<void> {
 		console.log(dto);
-		const { name, email, password} = dto;
-		await this.usersService.createUser(name, email, password);
+		const { name, email, pass} = dto;
+		await this.usersService.createUser(name, email, pass);
 	}
 
 	@Post('/email-verify')

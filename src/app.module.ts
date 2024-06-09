@@ -14,7 +14,8 @@ import { validationSchema } from "./config/validationSchema";
   // 비동기 함수일 경우 forRootAsync, registerAsync를 사용
   imports: [AppModule, UsersModule, EmailModule,
     ConfigModule.forRoot({
-			envFilePath: [`${__dirname}/config/env/.${process.env.NODE_ENV}.env`],
+			// envFilePath: [`${__dirname}/config/env/.${process.env.NODE_ENV}.env`],
+      envFilePath: [`src/config/env/.${process.env.NODE_ENV}.env`],
 			// load 속성을 통해 앞에서 구성해둔 ConfigFactory를 지정
 			load: [emailConfig],
 			// 전역 모듈로 동작하게 함

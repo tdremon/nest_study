@@ -11,13 +11,13 @@ export class CreateUserDto {
 		return params.value;
 	})
 	// password는 name과 동일한 문자열을 포함수 없게 한다면
-	@Transform(({ value, obj }) => {
-		if (obj.password.includes(obj.name.trim())) {
-			throw new BadRequestException('password는 name과 같은 문자열을 포함할 수 없습니다.')
-		}
-		return value.trim();
-	})
-	@NotIn('password', { message: 'password는 name과 같은 문자열을 포함할 수 없습니다.' })
+	// @Transform(({ value, obj }) => {
+	// 	if (obj.password.includes(obj.name.trim())) {
+	// 		throw new BadRequestException('password는 name과 같은 문자열을 포함할 수 없습니다.')
+	// 	}
+	// 	return value.trim();
+	// })
+	@NotIn('pass', { message: 'password는 name과 같은 문자열을 포함할 수 없습니다.' })
 	@IsString()
 	@MinLength(2)
 	@MaxLength(30)
@@ -28,5 +28,5 @@ export class CreateUserDto {
 	readonly email: string;
 	@IsString()
 	@Matches(/^[A-Za-z\d!@#$%^&*()]{8,30}$/)
-	readonly password: string;
+	readonly pass: string;
 }

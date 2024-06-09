@@ -10,7 +10,7 @@
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "prebuild": "rimraf dist",
-    "start:develop": "npm run prebuild && NODE_ENV=dev nest start --watch",
+    "start:develop": "npm run prebuild && NODE_ENV=dev nest start --debug --watch",
     "start:stg": "npm run prebuild && NODE_ENV=stg nest start --watch",
     "start:prd": "npm run prebuild && NODE_ENV=prd nest start --watch",
     "start:dev": "nest start --watch",
