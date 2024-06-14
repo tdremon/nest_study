@@ -8,6 +8,9 @@ import emailConfig from './config/emailConfig';
 import { validationSchema } from "./config/validationSchema";
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserEntity } from './users/entities/user.entity';
+// 9.2
+import { MiddlewareConsumer, NestModule } from '@nestjs/common';
+import { LoggerMiddleware } from './logger.middleware';
 
 @Module({
   //// ConfigModule.forRoot()
@@ -52,4 +55,14 @@ import { UserEntity } from './users/entities/user.entity';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer): any {
+    // consumer.apply(LoggerMiddleware).forRoutes('users');
+    consumer
+      .apply(LoggerMiddleware)
+      // 일반적으로는 Controller를 넘겨서 해당 Controller 전반에 적용
+      // 필요하면 MiddlewareConfigProxy.exclude({ path: '/users', method: RequestMethod.GET})
+      // 과 같이 하여 제외시킬 수 있음
+      .forRoutes('/users');
+  }
+}
