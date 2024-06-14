@@ -61,6 +61,7 @@ export class AppModule implements NestModule {
     consumer
       .apply(LoggerMiddleware)
       // 일반적으로는 Controller를 넘겨서 해당 Controller 전반에 적용
+      // .forRoutes(UsersController)
       // 필요하면 MiddlewareConfigProxy.exclude({ path: '/users', method: RequestMethod.GET})
       // 과 같이 하여 제외시킬 수 있음
       .forRoutes('/users');
