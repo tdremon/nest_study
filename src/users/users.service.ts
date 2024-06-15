@@ -1,5 +1,5 @@
 import * as uuid from 'uuid';
-import { Inject, Injectable, UnprocessableEntityException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
 // 가능한 상대 경로보다 절대 경로를 사용하는 것이 좋은 듯
 import { EmailService } from 'src/email/email.service';
 import { UserInfo } from './users.interface';
@@ -8,6 +8,7 @@ import { Repository, DataSource } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ulid } from 'ulid';
 import { InternalServerErrorException } from '@nestjs/common';
+import { AuthService } from'src/auth/auth.service';
 
 
 @Injectable()
@@ -19,6 +20,7 @@ export class UsersService {
         @InjectRepository(UserEntity) private usersRepository: Repository<UserEntity>,
         // 객체에 트랜잭션을 생성할 DataSource를 typeorm으로부터 가져와서 주입
         private dataSource: DataSource,
+        private authService: AuthService,
     ) {}
 
 
@@ -115,16 +117,39 @@ export class UsersService {
 
     async verifyEmail(signupVerifyToken: string): Promise<string> {
         console.log("verifyEmail");
-        // TODO
-        // 1. DB에서 signupVerifyToken으로 회원가입 처리 중인 유저가 있는지 조회하고 없다면 에러 처리
-        // 2. 바로 로그인 사태가 되도록 JWT 발급
-        throw new Error("Method not implemented.")
+        
+        const user = await this.usersRepository.findOne({
+            where: { signupVerifyToken }
+        });
+        if (!user) {
+            throw new NotFoundException('User not found');
+        }
+
+        return this.authService.login({
+            id: user.id,
+            name: user.name,
+            email: user.email,
+        })
+
+        // throw new Error("Method not implemented.")
     }
 
     async login(email: string, password: string): Promise<string> {
-        // TODO
-        // 1. email, password를 가진 유저가 존재하는지 DB에서 확인하고 없다면 에러 처리
-        // 2. JWT를 발급
+        console.log("login");
+
+        const user = await this.usersRepository.findOne({
+            where: { email, password }
+        });
+
+        if (!user) {
+            throw new NotFoundException('User not found');
+        }
+
+        return this.authService.login({
+            id: user.id,
+            name: user.name,
+            email: user.email,
+        })
 
         throw new Error('Method not implemented.')
     }
