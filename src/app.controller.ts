@@ -4,10 +4,10 @@ import { AppService } from './app.service';
 // Nest가 제공하는 ConfigModule은 .env 파일에서 읽어온 환경 변수 값을 가져오는 프로바이더인
 // ConfigService가 존재
 import { ConfigService } from '@nestjs/config';
-import { AuthGuard } from './authguard';
+// import { AuthGuard } from './auth.guard';
 
 // 10.2.2
-@UseGuards(AuthGuard)
+// @UseGuards(AuthGuard)
 // prefix로 @Controller(app)이라고 했다면,
 // http://localhost:3000/app/hello와 같이 Path가 입력됨
 @Controller()
@@ -17,8 +17,8 @@ export class AppController {
     private readonly configService: ConfigService
   ) {}
 
-  // 10.2.2
-  @UseGuards(AuthGuard)
+  // // 10.2.2
+  // @UseGuards(AuthGuard)
   // 생략하면 기본이 '/'로 인식 됨
   // '/he*o'와 같이 wildcard도 사용 가능하다
   @Get('/hello')

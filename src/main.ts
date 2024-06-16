@@ -5,7 +5,7 @@ import * as dotenv from 'dotenv';
 import * as path from 'path';
 import { dot } from 'node:test/reporters';
 import { logger3 } from './logger.middleware';
-import { AuthGuard } from './authguard';
+import { AuthGuard } from './auth.guard';
 
 //// Nodejs 방식의 dotenv
 // dotenv 환경을 설정
@@ -21,6 +21,8 @@ import { AuthGuard } from './authguard';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  // 11.1.1 Logging disable
+  // const app = await NestFactory.create(AppModule, { logger: false, });
   // 10.2.2 : 전역으로 Guard를 적용하고 싶은 경우
   // app.useGlobalGuards(new AuthGuard());
   // 모듈 전체에 미들웨어를 적용하기 위함

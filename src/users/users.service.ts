@@ -151,14 +151,26 @@ export class UsersService {
             email: user.email,
         })
 
-        throw new Error('Method not implemented.')
+        // throw new Error('Method not implemented.');
     }
 
     async getUserInfo(userId: string): Promise<UserInfo> {
-        // TODO
-        // 1. userId를 가진 유저가 존재하는지 DB에서 확인하고 없다면 에러 처리
-        // 2. 조회된 데이터를 UserInfo 타입으로 응답
+        console.log("getUserInfo");
 
-        throw new Error('Method not implemented.')
+        const user = await this.usersRepository.findOne({
+            where: { id: userId }
+        });
+
+        if (!user) {
+            throw new NotFoundException('User not found');
+        }
+
+        return {
+            id: user.id,
+            name: user.name,
+            email: user.email,
+        }
+
+        // throw new Error('Method not implemented.');
     }
 }

@@ -11,18 +11,25 @@ import { UserEntity } from './users/entities/user.entity';
 // 9.2
 import { MiddlewareConsumer, NestModule } from '@nestjs/common';
 import { LoggerMiddleware } from './logger.middleware';
+import authConfig from './config/authConfig';
+// 11.3.1 nest-winston 적용
+import * as winston from 'winston';
+import { utilities as nestWinstonModuleUtilites, WinstonModule } from 'nest-winston';
 
 @Module({
   //// ConfigModule.forRoot()
   // forRoot()는 DynamicModule을 리턴하는 정적 메서드
   // 동적 모듈을 작성할 때 아무 이름을 써도 되지만 관례적으로 forRoot, register를 씀
   // 비동기 함수일 경우 forRootAsync, registerAsync를 사용
-  imports: [AppModule, UsersModule, EmailModule,
+  imports: [
+    // AppModule,
+    UsersModule,
+    EmailModule,
     ConfigModule.forRoot({
 			// envFilePath: [`${__dirname}/config/env/.${process.env.NODE_ENV}.env`],
       envFilePath: [`src/config/env/.${process.env.NODE_ENV}.env`],
 			// load 속성을 통해 앞에서 구성해둔 ConfigFactory를 지정
-			load: [emailConfig],
+			load: [emailConfig, authConfig],
 			// 전역 모듈로 동작하게 함
 			// 필요하다면 EmailModule에만 임포트 하면 됨
 			isGlobal: true,
@@ -49,6 +56,18 @@ import { LoggerMiddleware } from './logger.middleware';
       // Production에서는 DB가 초기화 됨으로 절대로 true 금지!!
       synchronize: process.env.DATABASE_SYNCHRONIZE === 'true',
     }),
+    // 11.3.1 nest-winston 적용
+    WinstonModule.forRoot({
+      transports: [
+        new winston.transports.Console({
+          level: process.env.NODE_ENV === 'prd'? 'info' : 'silly',
+          format: winston.format.combine(
+            winston.format.timestamp(),
+            nestWinstonModuleUtilites.format.nestLike('MyApp', { prettyPrint: true }),
+          ),
+        }),
+      ],
+    })
   ],
   // 3.1.8 하위 도메인 라우팅
   // ApiController가 먼저 처리되도록 순서를 수정
