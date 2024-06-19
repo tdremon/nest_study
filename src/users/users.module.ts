@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Logger, Module } from '@nestjs/common';
 import { EmailService } from 'src/email/email.service';
 import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
@@ -15,6 +15,6 @@ import { AuthModule } from '../auth/auth.module';
         AuthModule
     ],
     controllers: [UsersController],
-    providers: [UsersService],
+    providers: [UsersService, Logger],
 })
 export class UsersModule {}

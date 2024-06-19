@@ -57,17 +57,17 @@ import { utilities as nestWinstonModuleUtilites, WinstonModule } from 'nest-wins
       synchronize: process.env.DATABASE_SYNCHRONIZE === 'true',
     }),
     // 11.3.1 nest-winston 적용
-    WinstonModule.forRoot({
-      transports: [
-        new winston.transports.Console({
-          level: process.env.NODE_ENV === 'prd'? 'info' : 'silly',
-          format: winston.format.combine(
-            winston.format.timestamp(),
-            nestWinstonModuleUtilites.format.nestLike('MyApp', { prettyPrint: true }),
-          ),
-        }),
-      ],
-    })
+    // WinstonModule.forRoot({
+    //   transports: [
+    //     new winston.transports.Console({
+    //       level: process.env.NODE_ENV === 'prd'? 'info' : 'silly',
+    //       format: winston.format.combine(
+    //         winston.format.timestamp(),
+    //         nestWinstonModuleUtilites.format.nestLike('MyApp', { prettyPrint: true }),
+    //       ),
+    //     }),
+    //   ],
+    // })
   ],
   // 3.1.8 하위 도메인 라우팅
   // ApiController가 먼저 처리되도록 순서를 수정
