@@ -17,7 +17,8 @@ import * as winston from 'winston';
 import { utilities as nestWinstonModuleUtilites, WinstonModule } from 'nest-winston';
 // 12.2 ExceptionFilter
 import { APP_FILTER } from '@nestjs/core';
-import { HttpExceptionFilter } from 'src/http.exception.filter';
+import { HttpExceptionFilter } from './exception/http-exception.filter';
+import { ExceptionModule } from './exception/exception.module';
 
 @Module({
   //// ConfigModule.forRoot()
@@ -70,16 +71,19 @@ import { HttpExceptionFilter } from 'src/http.exception.filter';
           ),
         }),
       ],
-    })
+    }),
+    ExceptionModule
   ],
   // 3.1.8 하위 도메인 라우팅
   // ApiController가 먼저 처리되도록 순서를 수정
   controllers: [AppController],
   providers: [AppService,
-    {
-      provide: APP_FILTER,
-      useClass: HttpExceptionFilter,
-    }
+    // 12.3 ExceptionModule 만들어서 import해서 주석 처리
+    // winston.Logger,
+    // {
+    //   provide: APP_FILTER,
+    //   useClass: HttpExceptionFilter,
+    // }
   ],
 })
 export class AppModule implements NestModule {

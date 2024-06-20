@@ -15,7 +15,7 @@ import { Logger } from '@nestjs/common';
 
 import { LoggerService } from '@nestjs/common';
 import { WINSTON_MODULE_NEST_PROVIDER, WINSTON_MODULE_PROVIDER } from 'nest-winston';
-import { HttpExceptionFilter } from 'src/http.exception.filter';
+import { HttpExceptionFilter } from '../exception/http-exception.filter';
 
 @Controller('users')
 export class UsersController {

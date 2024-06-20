@@ -1,12 +1,13 @@
 import { ArgumentsHost, Catch, ExceptionFilter, HttpException, InternalServerErrorException } from "@nestjs/common";
 import { timeStamp } from "console";
 import { Request, Response } from "express";
-import { Logger, exceptions } from "winston";
+import { Logger } from "@nestjs/common";
+import { exceptions } from "winston";
 
 // 처리되지 않은 모든 예외를 잡으려고 할 때 사용
 @Catch()
 export class HttpExceptionFilter implements ExceptionFilter {
-  // constructor(private readonly logger: Logger) {}
+  constructor(private readonly logger: Logger) {}
 
   catch(exception: Error, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
@@ -22,12 +23,13 @@ export class HttpExceptionFilter implements ExceptionFilter {
     const response = (exception as HttpException).getResponse();
 
     const log = {
-      timeStamp: new DataTransfer(),
+      timeStamp: new Date(),
       url: req.url,
       response,
     }
 
-    console.log(log);
+    this.logger.log(log);
+    // console.log(log);
 
     res
       .status((exception as HttpException).getStatus())
