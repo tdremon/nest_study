@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Query, Get, Param, Headers, UseGuards, Inject, InternalServerErrorException } from '@nestjs/common';
+import { Controller, Post, Body, Query, Get, Param, Headers, UseGuards, Inject, InternalServerErrorException, UseFilters } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { VerifyEmailDto } from './dto/verify-email.dto';
 import { UserLoginDto } from './dto/user-login.dto';
@@ -15,6 +15,7 @@ import { Logger } from '@nestjs/common';
 
 import { LoggerService } from '@nestjs/common';
 import { WINSTON_MODULE_NEST_PROVIDER, WINSTON_MODULE_PROVIDER } from 'nest-winston';
+import { HttpExceptionFilter } from 'src/http.exception.filter';
 
 @Controller('users')
 export class UsersController {
@@ -37,6 +38,8 @@ export class UsersController {
 	// 	return 'Server is running';
 	// }
 
+	// 12.2 Exception Filter
+	@UseFilters(HttpExceptionFilter)
 	@Post()
 	async createUser(@Body(ValidationPipe) dto: CreateUserDto): Promise<void> {
 		// this.printWinstonLog(dto);

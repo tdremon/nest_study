@@ -42,4 +42,9 @@ export class AppController {
     console.log(db_host);
     return db_host;
   }
+
+  @Get('/error')
+  erorrFunc(foo: any): string {
+    return foo.bar();
+  }
 }
