@@ -9,6 +9,10 @@ import { AuthGuard } from './auth.guard';
 import { WINSTON_MODULE_NEST_PROVIDER, WinstonLogger, WinstonModule, utilities as nestWinstonModuleUtilites } from 'nest-winston';
 // import winston from 'winston/lib/winston/config';
 import * as winston from 'winston';
+// 13.1
+// import { LoggingInterceptor } from './logging/logging.interceptor';
+// 13.2
+import { TransformInterceptor } from './transform.interceptor';
 
 //// Nodejs 방식의 dotenv
 // dotenv 환경을 설정
@@ -49,6 +53,12 @@ async function bootstrap() {
   // 11.3.2 내장 로거 대체
   // 전역 로거 설정
   app.useLogger(app.get(WINSTON_MODULE_NEST_PROVIDER));
+
+  // 13.2 응답과 예외 매핑
+  app.useGlobalInterceptors(
+    // new LoggingInterceptor(),
+    new TransformInterceptor(),
+  );
 
   // 10.2.2 : 전역으로 Guard를 적용하고 싶은 경우
   // app.useGlobalGuards(new AuthGuard());

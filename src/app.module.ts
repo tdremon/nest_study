@@ -19,6 +19,7 @@ import { utilities as nestWinstonModuleUtilites, WinstonModule } from 'nest-wins
 import { APP_FILTER } from '@nestjs/core';
 import { HttpExceptionFilter } from './exception/http-exception.filter';
 import { ExceptionModule } from './exception/exception.module';
+import { LoggingModule } from './logging/logging.module';
 
 @Module({
   //// ConfigModule.forRoot()
@@ -72,7 +73,8 @@ import { ExceptionModule } from './exception/exception.module';
         }),
       ],
     }),
-    ExceptionModule
+    ExceptionModule,
+    LoggingModule
   ],
   // 3.1.8 하위 도메인 라우팅
   // ApiController가 먼저 처리되도록 순서를 수정

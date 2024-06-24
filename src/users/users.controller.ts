@@ -33,10 +33,10 @@ export class UsersController {
 		@Inject(Logger) private readonly logger: LoggerService,
 	) {}
 
-	// @Get()
-	// test(): string {
-	// 	return 'Server is running';
-	// }
+	@Get()
+	test(): string {
+		return 'Users Controller is working!!';
+	}
 
 	// 12.2 Exception Filter
 	@UseFilters(HttpExceptionFilter)
