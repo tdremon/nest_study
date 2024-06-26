@@ -69,6 +69,10 @@ async function bootstrap() {
     // class-transformer가 적용되게 하려면 transform 속성을 true로 설정해야 함
     transform: true,
   }));
+
+  // 허가되지 않은 인증서를 거부하지 않겠다
+  process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+
   await app.listen(3000);
 }
 bootstrap();

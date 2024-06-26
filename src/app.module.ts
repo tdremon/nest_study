@@ -21,6 +21,9 @@ import { HttpExceptionFilter } from './exception/http-exception.filter';
 import { ExceptionModule } from './exception/exception.module';
 import { LoggingModule } from './logging/logging.module';
 import { BatchModule } from './batch/batch.module';
+import { HealthCheckController } from './health-check/health-check.controller';
+import { TerminusModule } from '@nestjs/terminus';
+import { HttpModule } from '@nestjs/axios';
 
 @Module({
   //// ConfigModule.forRoot()
@@ -76,11 +79,13 @@ import { BatchModule } from './batch/batch.module';
     }),
     ExceptionModule,
     LoggingModule,
-    BatchModule
+    BatchModule,
+    TerminusModule,
+    HttpModule,
   ],
   // 3.1.8 하위 도메인 라우팅
   // ApiController가 먼저 처리되도록 순서를 수정
-  controllers: [AppController],
+  controllers: [AppController, HealthCheckController],
   providers: [AppService,
     // 12.3 ExceptionModule 만들어서 import해서 주석 처리
     // winston.Logger,
