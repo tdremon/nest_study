@@ -16,6 +16,9 @@ import { Logger } from '@nestjs/common';
 import { LoggerService } from '@nestjs/common';
 import { WINSTON_MODULE_NEST_PROVIDER, WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { HttpExceptionFilter } from '../exception/http-exception.filter';
+// 16.2
+import { CommandBus } from '@nestjs/cqrs';
+import { CreateUserCommand } from './command/create-user.command';
 
 @Controller('users')
 export class UsersController {
@@ -31,6 +34,7 @@ export class UsersController {
 
 		// 11.3.3
 		@Inject(Logger) private readonly logger: LoggerService,
+		private commandBus: CommandBus,
 	) {}
 
 	@Get()
@@ -45,7 +49,10 @@ export class UsersController {
 		// this.printWinstonLog(dto);
 		this.printLoggerServiceLog(dto);
 		const { name, email, pass} = dto;
-		await this.usersService.createUser(name, email, pass);
+		// 16.2
+		// await this.usersService.createUser(name, email, pass);
+		const command = new CreateUserCommand(name, email, pass);
+		return this.commandBus.execute(command);
 	}
 
 	@Post('/email-verify')

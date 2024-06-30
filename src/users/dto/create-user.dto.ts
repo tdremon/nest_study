@@ -17,7 +17,7 @@ export class CreateUserDto {
 	// 	}
 	// 	return value.trim();
 	// })
-	@NotIn('pass', { message: 'password는 name과 같은 문자열을 포함할 수 없습니다.' })
+	// @NotIn('pass', { message: 'password는 name과 같은 문자열을 포함할 수 없습니다.' })
 	@IsString()
 	@MinLength(2)
 	@MaxLength(30)
@@ -27,6 +27,6 @@ export class CreateUserDto {
 	@MaxLength(60)
 	readonly email: string;
 	@IsString()
-	@Matches(/^[A-Za-z\d!@#$%^&*()]{8,30}$/)
+	// @Matches(/^[A-Za-z\d!@#$%^&*()]{8,30}$/)
 	readonly pass: string;
 }
